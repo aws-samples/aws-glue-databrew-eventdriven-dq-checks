@@ -58,7 +58,7 @@ Resources:
   s3ManagerLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../lib/s3ManagerCustomResource
+      CodeUri: ../lambdaFunctions/s3ManagerCustomResource
       Policies:
         - S3FullAccessPolicy:
             BucketName: !Ref GlueDataBrewOutputS3Bucket
@@ -297,7 +297,7 @@ Resources:
   DQCheckFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ../lib/getDataBrewDqResults
+      CodeUri: ../lambdaFunctions/getDataBrewDqResults
       Policies:
         - S3ReadPolicy:
             BucketName: !Ref GlueDataBrewOutputS3Bucket
