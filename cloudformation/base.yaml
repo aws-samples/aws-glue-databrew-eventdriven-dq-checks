@@ -140,12 +140,13 @@ Resources:
     Type: AWS::DataBrew::Dataset
     Properties:
       Format: CSV
-      Input: 
+      Input:
         S3InputDefinition:
-          Bucket: !Ref GlueDataBrewInputS3Bucket
-          Key: votes.csv
+          Bucket:
+            Ref: GlueDataBrewInputS3Bucket
+          Key:
+            Ref: S3Key
       Name: awsbigdatablog-votes
-
   GlueDataBrewDataQualityRuleset:
     Type: AWS::DataBrew::Ruleset
     Properties:
@@ -343,8 +344,22 @@ Resources:
 
 Outputs:
   AWSGlueDataBrewProfileJob:
-    Value: !Sub https://console.aws.amazon.com/databrew/home?region=${AWS::Region}#job-details?job=${GlueDataBrewProfileJob}&tab=details
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=${AWS::Region}#job-details?job=${GlueDataBrewProfileJob}&tab=details
   AWSGlueDataBrewRuleset:
-    Value: !Sub https://console.aws.amazon.com/databrew/home?region=us-east-1#ruleset-details?ruleset=${GlueDataBrewDataQualityRuleset}
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=us-east-1#ruleset-details?ruleset=${GlueDataBrewDataQualityRuleset}
+  AWSGlueDataBrewProfileResults:
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/databrew/home?region=${AWS::Region}#dataset-details?dataset=${GlueDataBrewDataset}&tab=data-quality-rules
   AWSStepFunctionsStateMachine:
-    Value: !Sub https://console.aws.amazon.com/states/home?region=${AWS::Region}#/statemachines/view/${ProfileJobStepFunction}
+    Value:
+      Fn::Sub: https://console.aws.amazon.com/states/home?region=${AWS::Region}#/statemachines/view/${ProfileJobStepFunction}
+  CommandToDownloadTestData:
+    Value:
+      Fn::Sub: aws s3 cp s3://${GlueDataBrewInputS3Bucket}/${S3Key} .
+  CommandToUploadTestData:
+    Value:
+      !Sub
+        - aws s3 cp ${LocalPath} s3://${GlueDataBrewInputS3Bucket}/${S3Key}
+        - { LocalPath: !Select [2, !Split ['/', !Ref S3Key]] }
