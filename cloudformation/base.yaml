@@ -134,6 +134,10 @@ Resources:
           - "aws.s3"
         detail-type:
           - "Object Created"
+        detail:
+          bucket:
+            name: 
+              - !Ref GlueDataBrewInputS3Bucket
 
   GlueDataBrewDataset:
     DependsOn: CopyObjectResource
