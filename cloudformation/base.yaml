@@ -28,6 +28,15 @@ Resources:
   GlueDataBrewOutputS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+      Rules:
+        - Id: All
+          Status: Enabled
+          NoncurrentVersionExpiration:
+            NewerNoncurrentVerssions: 3
+            NoncurrentDays: 90
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
