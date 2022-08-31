@@ -31,12 +31,12 @@ Resources:
       VersioningConfiguration:
         Status: Enabled
       LifecycleConfiguration:
-      Rules:
-        - Id: All
-          Status: Enabled
-          NoncurrentVersionExpiration:
-            NewerNoncurrentVerssions: 3
-            NoncurrentDays: 90
+        Rules:
+          - Id: All
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NewerNoncurrentVerssions: 3
+              NoncurrentDays: 90
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -50,6 +50,15 @@ Resources:
   GlueDataBrewInputS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
+      VersioningConfiguration:
+          Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: All
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NewerNoncurrentVerssions: 3
+              NoncurrentDays: 90
       NotificationConfiguration:
         # New configuration to enable EventBridge for S3 Event Notifications
         EventBridgeConfiguration:
